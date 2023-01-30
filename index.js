@@ -30,6 +30,7 @@ console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin
   Aşağıdaki skor1 ve skor2 kodlarını inceleyiniz ve aşağıdaki soruları altına not alarak cevaplayın
   
   1. skor1 ve skor2 arasındaki fark nedir?
+
   
   2. Hangisi bir closure kullanmaktadır? Nasıl tarif edebilirsin? (yarınki derste öğreneceksin :) )
   
@@ -64,8 +65,9 @@ Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
 Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyonu olarak da kullanılacak
 */
 
-function takimSkoru(/*Kodunuzu buraya yazınız*/){
-    /*Kodunuzu buraya yazınız*/
+function takimSkoru(){
+    let score = (Math.floor(Math.random() * 16 )+ 10);
+    return score ;
 }
 
 
@@ -86,9 +88,18 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
 }
 */ 
 
-function macSonucu(/*Kodunuzu buraya yazınız*/){
-  /*Kodunuzu buraya yazınız*/
+function macSonucu(callback , ceyrek){
+  let evSahibiSkoru = 0 ;
+  let konukTakimSkoru = 0 ;
+  for(let i = 1 ; i <= ceyrek ; i++){
+    evSahibiSkoru = evSahibiSkoru + callback();
+    konukTakimSkoru = konukTakimSkoru + callback();
+  }
+  return { "EvSahibi": evSahibiSkoru,
+  "KonukTakim": konukTakimSkoru};
 }
+console.log(macSonucu(takimSkoru , 4));
+
 
 
 
@@ -109,10 +120,16 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
   */
 
 
-function periyotSkoru(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function periyotSkoru(callback) {
+  let skorTabelasi = {
+    EvSahibi : callback() ,
+    KonukTakim : callback() ,
+  };
+  return skorTabelasi ;
 
 }
+console.log(periyotSkoru(takimSkoru));
+
 
 
 /* Zorlayıcı Görev 5: skorTabelasi() 
@@ -146,9 +163,21 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
 ] */
 // NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tmamlandı sayabilirsiniz.
 
-function skorTabelasi(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function skorTabelasi(cb_periyotSkoru , cb_takimSkoru , ceyrekSayisi) {
+  let macdetay = [];
+  let macEvSahibi = 0;
+  let macKonukTakim = 0 ;
+
+  for(let i = 1 ; i <= ceyrekSayisi ; i++){
+      let periyotSkoru = cb_periyotSkoru(cb_takimSkoru);
+      macEvSahibi +=periyotSkoru.EvSahibi ;
+      macKonukTakim += periyotSkoru.KonukTakim ;
+      macdetay.push(`${i}. periyot : Ev Sahibi ${periyotSkour.EvSahibi} - Konuk Takim ${periyotSkoru.KonukTakim}`);
+  }
+  macdetay.push(`Mac Sounucu : Ev Sahibi ${macEvSahibi} - Konuk Takim ${macKonukTakim}`)
+  return macdetay;
 }
+
 
 
 
